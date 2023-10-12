@@ -1,14 +1,14 @@
 import React from 'react';
 import css from './Form.module.css';
-import { addContact } from 'redux/sliceContacts';
+import { addContact } from 'redux/operations';
 import { nanoid } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts } from 'redux/selectors';
+import { selectContacts } from 'redux/selectors';
 
 export const Form = () => {
  
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts)
+  const contacts = useSelector(selectContacts)
       
      const handleSubmit = (event) => {
        event.preventDefault()
