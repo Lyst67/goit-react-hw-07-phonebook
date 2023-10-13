@@ -1,14 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
-// import { deleteContact } from 'redux/contactsSlice';
 import css from './Contacts.module.css';
-import { selectContacts, selectIsLoading, selectError, selectFilter } from "redux/selectors";
+import { selectIsLoading, selectError, selectFilteredContacts } from "redux/selectors";
 import { useEffect } from "react";
 import { fetchContacts, deleteContact } from "redux/operations";
 
-
 export const Contacts = () => {
-   
-    const contacts = useSelector(selectContacts)
+    // const contacts = useSelector(selectContacts)
     const isLoading = useSelector(selectIsLoading)
     const error = useSelector(selectError)
     const dispatch = useDispatch()
@@ -17,21 +14,25 @@ export const Contacts = () => {
         dispatch(fetchContacts())}, [dispatch])
 
     const deleteElement = (event) => {
-        console.log(event.target.id)
        dispatch(deleteContact(event.target.id))  
     } 
     
-    const filter = useSelector(selectFilter)
-       const filterContacts = () => {
-           return contacts.filter((el) =>
-               el.name.toLowerCase().includes(filter.toLowerCase()))
-  }
+    const filter = useSelector(selectFilteredContacts);
+//        const filterContacts = () => {
+//            return contacts.filter((el) =>
+//                el.name.toLowerCase().includes(filter.toLowerCase()))
+//   }
     
     return (
         <>  {isLoading && <h1>Loading...</h1>}
             {error && <h1>{error}</h1>}
             <ul className={css.cont_list}>
-                {filterContacts().map(({id, name, phone}) => {
+                {filter.sort((a, b) => {
+                    const nameA = a.name.toLowerCase(); 
+                    const nameB = b.name.toLowerCase(); 
+                   if (nameA < nameB) { return -1;}
+                   if (nameA > nameB) { return 1; }
+                   return 0; }).map(({id, name, phone}) => {
                     return (
                     <li className={css.cont_item} key={id}>
                             <p>{name}: {phone}</p>

@@ -14,9 +14,9 @@ export const Form = () => {
        event.preventDefault()
        const form = event.currentTarget
        const name = form.elements.name.value
-       const number = form.elements.number.value
+       const phone = form.elements.number.value
        const id = nanoid()
-       const newContact = { id, name, number }
+       const newContact = { id, name, phone }
        const existName = contacts.find(contact =>
          contact.name.toLowerCase() === name.toLowerCase().trim())
        if (existName) { alert(`${name} is already in contacts!`)
